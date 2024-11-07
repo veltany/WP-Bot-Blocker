@@ -6,6 +6,8 @@
  * Author: Samuel Chukwu 
  * License: GPL2
  * Text Domain: wp-bot-blocker
+ * GitHub Plugin URI: https://github.com/veltany/wp-bot-blocker
+ * GitHub Branch: main
  */
 
 if (!defined('ABSPATH')) exit;
@@ -23,7 +25,18 @@ require_once WP_BOT_BLOCKER_DIR. 'includes/class-abuseipdb-api.php';
 include_once(plugin_dir_path(__FILE__) . 'includes/class-honeypot-api.php'); 
 include_once(plugin_dir_path(__FILE__) . 'includes/class-recaptcha-v3-api.php'); 
 
+// Future plugin update 
+require 'lib/plugin-update-checker/plugin-update-checker.php';
 
+$update_checker = Puc_v4_Factory::buildUpdateChecker(
+    'https://github.com/veltany/wp-bot-blocker',
+    __FILE__,
+    'wp-bot-blocker'
+);
+
+// Set the branch to use (e.g., main or master)
+$update_checker->setBranch('main');
+ 
 
 // Main WPBotBlocker class
  class WPBotBlocker {
