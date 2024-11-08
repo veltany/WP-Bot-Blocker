@@ -11,13 +11,16 @@
     </div>  
     
     
-    <div id="general" class="wpbb-tab-content active">
-        
-   <form method="post" action="options.php">
+     <form method="post" action="options.php">
          <?php
         settings_fields('wp-bot-blocker-settings');
         do_settings_sections('wp-bot-blocker-settings');
         ?>
+    
+    
+    <div id="general" class="wpbb-tab-content active">
+        
+   
 
 
         <!-- Bot Detection Settings -->
@@ -93,7 +96,6 @@
 </table>
 
         <?php submit_button(); ?>
-    </form>
     
             
             
@@ -103,12 +105,7 @@
 
     <div id="api" class="wpbb-tab-content">
         
-        <form method="post" action="options.php">
-    <?php
-        settings_fields('wp-bot-blocker-settings');
-        do_settings_sections('wp-bot-blocker-settings');
-   ?>
-              <!-- reCAPTCHA Settings -->
+       <!-- reCAPTCHA Settings -->
         <h2><?php echo esc_html__('reCAPTCHA', 'wp-bot-blocker'); ?></h2>
         <table class="form-table">
               <tr valign="top">
@@ -157,18 +154,13 @@
            <?php
            submit_button();
             ?>
-        </form>
+        
     </div>
     
     <!-- RATE LIMIT TAB -->
     <div id="rate-limit" class="wpbb-tab-content">
         <h2>Rate Limit</h2>
-        <form method="post" action="options.php">
-            <?php
-           
-        settings_fields('wp-bot-blocker-settings');
-        do_settings_sections('wp-bot-blocker-settings');
-          ?>
+        
             
     <!-- Rate Limit Settings -->
         
@@ -195,9 +187,9 @@
            <?php
            submit_button();
             ?>
-        </form>
+        
     </div>
-    
+   </form>
     <!-- TOOLS TAB -->
     <div id="tools" class="wpbb-tab-content">
       <p><?php echo esc_html__('Manual Log Cleanup', 'wp-bot-blocker'); ?></p>
