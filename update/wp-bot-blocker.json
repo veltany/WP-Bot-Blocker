@@ -1,6 +1,6 @@
 {
 	"name": "WP Bot Blocker",
-	"version": "2.4",
+	"version": "2.5",
 	"download_url": "https://github.com/veltany/WP-Bot-Blocker/blob/4390d7d8ee8a7f761725ef50e8d24c6c9f2310c5/update/wp-bot-blocker.zip",
 
 	"homepage": "http://example.com/",
@@ -15,12 +15,10 @@
 	"sections": {
 		"description": "A WordPress plugin to block bad bots, implement rate limiting, and protect your site. ",
 		"installation": "
-		== Installation ==
-
-1. Upload the plugin files to the `/wp-content/plugins/wp-bot-blocker` directory, or install the plugin through the WordPress plugins screen directly.
-2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Go to Settings > WP Bot Blocker to configure plugin settings.
- ",
+                            1. Upload the plugin files to the `/wp-content/plugins/wp-bot-blocker` directory, or install the plugin through the WordPress plugins screen directly.
+                            2. Activate the plugin through the 'Plugins' screen in WordPress.
+                            3. Go to Settings > WP Bot Blocker to configure plugin settings.
+                            ",
 		"changelog": "(Recommended) Changelog. <p>This section will be displayed by default when the user clicks 'View version x.y.z details'.</p>",
 		"custom_section": "This is a custom section labeled 'Custom Section'."
 	},
