@@ -79,6 +79,10 @@ class WPBotBlocker_Rule_Check {
             "RULE: $rule->rule_name [ACTION TAKEN: $rule->action] ", 
             $this->user_agent );
      }
+     if ($rule->action === 'refirect')
+     {
+       wp_redirect($rule->redirect_url, 302,'WP Bot Blocker');
+     }
         // Additional actions can be added here as needed
     }
 
