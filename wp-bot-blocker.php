@@ -18,15 +18,26 @@ define('WP_BOT_BLOCKER_DIR', plugin_dir_path(__FILE__));
 define('WP_BOT_BLOCKER_URL', plugin_dir_url(__FILE__));
 
 require WP_BOT_BLOCKER_DIR.'lib/plugin-update-checker/plugin-update-checker.php';
-
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
- 
+
 $myUpdateChecker = PucFactory::buildUpdateChecker(
-	WP_BOT_BLOCKER_URL.'update/wp-bot-blocker.json',
-	__FILE__, //Full path to the main plugin file or functions.php.
+	'https://github.com/veltany/wp-bot-blocker/',
+	WP_BOT_BLOCKER_DIR.'wp-bot-blocker.php', //Full path to the main plugin file or functions.php.,
 	'wp-bot-blocker'
 );
 
+//Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('main');
+
+//Optional: If you're using a private repository, specify the access token like this:
+///$myUpdateChecker->setAuthentication('your-token-here');
+ 
+/*$myUpdateChecker = PucFactory::buildUpdateChecker(
+	WP_BOT_BLOCKER_URL.'update/wp-bot-blocker.json',
+	WP_BOT_BLOCKER_DIR.'wp-bot-blocker.php', //Full path to the main plugin file or functions.php.
+	'wp-bot-blocker'
+);
+*/
 
 require_once WP_BOT_BLOCKER_DIR . 'admin/class-wp-bot-blocker-admin.php';
 require_once WP_BOT_BLOCKER_DIR . 'includes/class-wp-bot-blocker-detection.php';
