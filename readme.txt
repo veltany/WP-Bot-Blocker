@@ -27,12 +27,21 @@ Setting the score threshold in WP Bot Blocker Settings determines how the plugin
 WP Bot Blocker has inbuilt Advanced Block Rules which can be configured to block bot traffic according to needs. Rules allows you to basically set up a simple WAF based on simple structure:
 **Rule Type ** -> **Condition** -> **Action**
 
-* **Rule Type** Take action on a request based on IP, User Agent, Request URI, Country, Continent, 
+* **Rule Type** Take action on a request based on IP, User Agent, Request URI, Country, Continent, Full Request URI, Is Known Bot, Bot Category and Query Strings.
 
-* **Bot Blocking:** Identify and block suspicious bots based on User-Agent, rate-limiting, and Honey Pot data.
+* **Condition** Based on Rule Type, you can set condition value or pattern to match for the request. 
+For example, setting *AI Bot* as the condition value for User Agent will block all requests with user agent that contains "AI Bot". 
+This means that wildcards are accepted in the condition pattern to block. 
+
+* **Action** WP Bot Blocker takes an action when the request match the condition value. Actions can be to "**Block**" the request or "**Redirect**" the request to some defined url. 
+
+== Features ==
+
+* **Bot Blocking:** Identify and block suspicious bots based on User-Agent, rate-limiting, and Bot Score.
 * **Rate Limiting:** Limit the number of requests per IP to prevent abuse.
-* **reCAPTCHA & Honey Pot Integration:** Use reCAPTCHA to verify human visitors and Honey Pot to identify known malicious IPs.
+* **API Integration:** Use reCAPTCHA to verify human visitors and other API to identify known malicious IPs.
 * **Live Traffic Monitor:** Monitor traffic activity in real time and review blocked requests.
+* **Block Rules: ** Take action on each single traffic and requests that comes to your site by either blocking or redirecting them based on IP, User Agent, Country, Requested URL, Continent, If It's Bot, Bot Category, Query Strings and more. 
 
 == Installation ==
 
@@ -58,8 +67,10 @@ Yes, the plugin provides an option to set a custom rate limit threshold and time
 
 = 1.0.0 =
 * Initial release of WP Bot Blocker.
+= 2.2.0 =
+* WP Bot Blocker goes public. 
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-* Initial release.
+= 2.5.0 =
+* Intigrated with github for automated and open source release. 
