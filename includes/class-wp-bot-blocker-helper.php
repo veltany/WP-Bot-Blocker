@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 class WP_Bot_Blocker_Helper {
 
     public  function log($message) {

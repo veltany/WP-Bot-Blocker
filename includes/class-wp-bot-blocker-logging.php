@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 class WP_Bot_Blocker_Logging {
 
     public static function create_log_table() {

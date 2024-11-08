@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 class WP_Bot_Blocker_Traffic {
 
     public static function log_visit() {

@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 class WP_Bot_Blocker_Reputation {
     private static $api_url = 'https://ip-api-example.com/check/';
 

@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 class WPBotBlocker_Rule_Check {
     private $table_name;
     private $wpb ;
@@ -76,10 +78,10 @@ class WPBotBlocker_Rule_Check {
          
         
        $this->wpb->detector->block_request($this->ip, 
-            "RULE: $rule->rule_name [ACTION TAKEN: $rule->action] ", 
+            "Rule: $rule->rule_name >> $rule->action", 
             $this->user_agent );
      }
-     if ($rule->action === 'refirect')
+     if ($rule->action === 'redirect')
      {
        wp_redirect($rule->redirect_url, 302,'WP Bot Blocker');
      }
@@ -100,4 +102,3 @@ class WPBotBlocker_Rule_Check {
         return false ;
     }
 }
-?>

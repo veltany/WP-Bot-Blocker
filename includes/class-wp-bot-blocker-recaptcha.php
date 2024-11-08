@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 class WP_Bot_Blocker_ReCaptcha {
 
     public static function display_recaptcha() {
