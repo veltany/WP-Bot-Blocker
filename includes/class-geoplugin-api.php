@@ -102,6 +102,24 @@ if (!class_exists('GeoPluginAPI')) {
         }
 
 
+        /**
+         * Retrieve country name by its ISO code.
+         *
+         * @param string $code Country ISO code.
+         * @return string|false Country name if found, false otherwise.
+         */
+  public function get_country_by_code($code)
+  {
+            $code = strtoupper($code);
+            foreach ($this->get_countries() as $country) {
+                if ($country['code'] === $code) {
+                    return $country['name'];
+                }
+            }
+            return false;
+  }
+
+   
 
         /**
          * Internal method to provide a hard-coded list of states/provinces by country code.
@@ -128,4 +146,4 @@ if (!class_exists('GeoPluginAPI')) {
         }
     }
 }
-?>
+
