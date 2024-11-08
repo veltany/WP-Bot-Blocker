@@ -2,13 +2,15 @@
 /**
  * Plugin Name: WP Bot Blocker
  * Description:  A WordPress plugin to block bad bots, implement rate limiting, and protect your site. 
- * Version: 2.5
+ * Version: 2.5.0
  * Author: Samuel Chukwu 
  * License: GPL2
  * Text Domain: wp-bot-blocker
  * Author URI: https://github.com/veltany 
  * GitHub Plugin URI: https://github.com/veltany/wp-bot-blocker
  * GitHub Branch: main
+ * Requires at least: 6.6
+ * Requires PHP: 8.2
  */
 
 if (!defined('ABSPATH')) exit;
