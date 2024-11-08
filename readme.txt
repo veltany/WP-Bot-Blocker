@@ -12,14 +12,30 @@ A WordPress plugin to block bad bots, implement rate limiting, and protect your 
 
 == Description ==
 
-WP Bot Blocker is a simple yet powerful plugin that helps you secure your WordPress site by blocking malicious bots, limiting request rates, and enabling bot detection with advanced detection APIs including reCAPTCHA, Honey Pot GeoIp, AbuseIPDB and similar services.
-All API services is optional and helps to strengthen the detection system. By the default, the plugin detects the most basic common bots like AI Scrapers, Abusing Crwlers, Malicious Spiders and Spammers. 
+WP Bot Blocker is a FREE and Open Source solution to decisively deal with bots and malicious traffic. 
+
+WP Bot Blocker is a simple yet powerful WordPress plugin that helps secure WordPress sites by blocking malicious bots, limiting request rates, and enabling bot detection. Wp Bot Blocker works by intercepting all incoming requests to WordPress Fronted early enough and taking appropriate action by applying the Block Rules or intercepting the request based on the defined settings.
+The plugin checks for:
+
+>> Rate Limit. 
+
+>> Bot Score. 
+
+>> Block Rules 
+
+The request is allowed to proceed if it passed.
+
+
+
+WP Bot Blocker uses external API including Recaptcha and AbuseIPDB to strengthen the detection system. All API services is optional and helps to strengthen the bot detection. By the default, the plugin detects the most basic common bots like AI Scrapers, Abusing Crwlers, Malicious Spiders and Spammers. 
 
 WP Bot Blocker uses score of 1 to 10 to grade bots. 
 
-Score 1 = Definitely not a bot.
-Score 5 = More Likely a bot. 
-Score 10 = Definitely a bot. 
+*Score 1* = Definitely not a bot.
+
+*Score 5* = More Likely a bot. 
+
+*Score 10* = Definitely a bot. 
 
 Setting the score threshold in WP Bot Blocker Settings determines how the plugin generally threat a request based on the score, this does not apply to rules. Use Advanced Bot Blocker rules for more robust and specific detection  
 
@@ -30,12 +46,12 @@ WP Bot Blocker has inbuilt Advanced Block Rules which can be configured to block
 * **Rule Type** Take action on a request based on IP, User Agent, Request URI, Country, Continent, Full Request URI, Is Known Bot, Bot Category and Query Strings.
 
 * **Condition** Based on Rule Type, you can set condition value or pattern to match for the request. 
-For example, setting *AI Bot* as the condition value for User Agent will block all requests with user agent that contains "AI Bot". 
+For example, setting "* AI Bot *" as the condition value for User Agent will block all requests with user agent that contains "AI Bot". 
 This means that wildcards are accepted in the condition pattern to block. 
 
 * **Action** WP Bot Blocker takes an action when the request match the condition value. Actions can be to "**Block**" the request or "**Redirect**" the request to some defined url. 
 
-== Features ==
+**Features**
 
 * **Bot Blocking:** Identify and block suspicious bots based on User-Agent, rate-limiting, and Bot Score.
 * **Rate Limiting:** Limit the number of requests per IP to prevent abuse.
