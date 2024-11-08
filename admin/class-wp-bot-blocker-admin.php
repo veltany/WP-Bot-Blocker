@@ -16,14 +16,16 @@ class WP_Bot_Blocker_Admin {
  
 
     }
- public function admin_enqueue_scripts () {
+ public function admin_enqueue_scripts () 
+ {
 
     // Enqueue CSS for the settings page
-    wp_enqueue_style('wp-bot-blocker-settings', plugin_dir_url(__FILE__) . 'admin/css/wp-bot-blocker-settings.css');
+    wp_enqueue_style('wp-bot-blocker-settings', WP_BOT_BLOCKER_URL. 'admin/css/wp-bot-blocker-settings.css');
 
     // Enqueue JavaScript for the settings page
-    wp_enqueue_script('wp-bot-blocker-settings-js', plugin_dir_url(__FILE__) . 'admin/js/wp-bot-blocker-settings.js', [], false, true);
+    wp_enqueue_script('wp-bot-blocker-settings-js', WP_BOT_BLOCKER_URL. 'admin/js/wp-bot-blocker-settings.js', [], false, true);
 }
+
 
 
     public function add_admin_menu() {
