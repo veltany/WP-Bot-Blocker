@@ -2,9 +2,9 @@
 Contributors: Samuel Chukwu 
 Donate link: https://yourwebsite.com/donate
 Tags: bot protection, rate limiting, recaptcha, AbuseIPDB, honey pot, WordPress security
-Requires at least: 5.0
-Tested up to: 6.3
-Stable tag: 2.2
+Requires at least: 6.0
+Tested up to: 6.6
+Stable tag: 2.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,22 @@ A WordPress plugin to block bad bots, implement rate limiting, and protect your 
 
 == Description ==
 
-WP Bot Blocker is a comprehensive plugin that helps you secure your WordPress site by blocking malicious bots, limiting request rates, and enabling bot detection with reCAPTCHA and Honey Pot services.
+WP Bot Blocker is a simple yet powerful plugin that helps you secure your WordPress site by blocking malicious bots, limiting request rates, and enabling bot detection with advanced detection APIs including reCAPTCHA, Honey Pot GeoIp, AbuseIPDB and similar services.
+All API services is optional and helps to strengthen the detection system. By the default, the plugin detects the most basic common bots like AI Scrapers, Abusing Crwlers, Malicious Spiders and Spammers. 
+
+WP Bot Blocker uses score of 1 to 10 to grade bots. 
+
+Score 1 = Definitely not a bot.
+Score 5 = More Likely a bot. 
+Score 10 = Definitely a bot. 
+
+Setting the score threshold in WP Bot Blocker Settings determines how the plugin generally threat a request based on the score, this does not apply to rules. Use Advanced Bot Blocker rules for more robust and specific detection  
+
+
+WP Bot Blocker has inbuilt Advanced Block Rules which can be configured to block bot traffic according to needs. Rules allows you to basically set up a simple WAF based on simple structure:
+**Rule Type ** -> **Condition** -> **Action**
+
+* **Rule Type** Take action on a request based on IP, User Agent, Request URI, Country, Continent, 
 
 * **Bot Blocking:** Identify and block suspicious bots based on User-Agent, rate-limiting, and Honey Pot data.
 * **Rate Limiting:** Limit the number of requests per IP to prevent abuse.
