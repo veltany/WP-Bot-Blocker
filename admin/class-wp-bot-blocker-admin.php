@@ -99,6 +99,7 @@ public function display_settings_page() {
     }
 
  public function display_logs_page() {
+     global $wpdb;
      $table_name = $wpdb->prefix . 'wp_bot_blocker_logs';
 
       $cache_key = $table_name;
