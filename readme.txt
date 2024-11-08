@@ -14,7 +14,8 @@ A WordPress plugin to block bad bots, implement rate limiting, and protect your 
 
 WP Bot Blocker is a FREE and Open Source solution to decisively deal with bots and malicious traffic. 
 
-WP Bot Blocker is a simple yet powerful WordPress plugin that helps secure WordPress sites by blocking malicious bots, limiting request rates, and enabling bot detection. Wp Bot Blocker works by intercepting all incoming requests to WordPress Fronted early enough and taking appropriate action by applying the Block Rules or intercepting the request based on the defined settings.
+WP Bot Blocker is a simple yet powerful WordPress plugin that helps secure WordPress sites by blocking malicious bots, limiting request rates, and enabling bot detection.
+Wp Bot Blocker works by intercepting all incoming requests to WordPress Fronted early enough and taking appropriate action by applying the Block Rules or intercepting the request based on the defined settings.
 The plugin checks for:
 
 >> Rate Limit. 
