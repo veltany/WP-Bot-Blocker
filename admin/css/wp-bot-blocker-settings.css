@@ -1,0 +1,52 @@
+/* Settings Page Wrapper */
+.wp-bot-blocker-settings {
+    font-family: Arial, sans-serif;
+}
+
+.wp-bot-blocker-settings h1 {
+    margin-bottom: 20px;
+    color: #0073aa;
+}
+
+/* Tabs */
+.wpbb-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.wpbb-tab-link {
+    background-color: #f1f1f1;
+    color: #0073aa;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.wpbb-tab-link.active,
+.wpbb-tab-link:hover {
+    background-color: #0073aa;
+    color: #fff;
+}
+
+/* Tab Content */
+.wpbb-tab-content {
+    display: none;
+}
+
+.wpbb-tab-content.active {
+    display: block;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-top: none;
+}
+
+.wpbb-tab-content h2 {
+    margin-top: 0;
+    color: #0073aa;
+}

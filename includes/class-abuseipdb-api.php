@@ -7,7 +7,7 @@ if (!class_exists('AbuseIPDBAPI')) {
         private $base_url = 'https://api.abuseipdb.com/api/v2/check';
 
         public function __construct() {
-            $this->api_key = '8fcfe61bfad327cb5a8ed618a8de608200e76c14984829006281bf9fd260d8675e3601d41900f87e';
+            $this->api_key = get_option('wp_bot_blocker_abuseipdb_api_key') ;
         }
 
         /**

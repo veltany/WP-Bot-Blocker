@@ -11,9 +11,20 @@ class WP_Bot_Blocker_Admin {
         add_action('admin_init', array($this, 'handle_manual_cleanup'));
           
           $this->helper = new WP_Bot_Blocker_Helper(); 
-
+          
+     add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
+ 
 
     }
+ public function admin_enqueue_scripts () {
+
+    // Enqueue CSS for the settings page
+    wp_enqueue_style('wp-bot-blocker-settings', plugin_dir_url(__FILE__) . 'admin/css/wp-bot-blocker-settings.css');
+
+    // Enqueue JavaScript for the settings page
+    wp_enqueue_script('wp-bot-blocker-settings-js', plugin_dir_url(__FILE__) . 'admin/js/wp-bot-blocker-settings.js', [], false, true);
+}
+
 
     public function add_admin_menu() {
         add_menu_page(
@@ -48,6 +59,7 @@ public function register_recaptcha_settings() {
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_recaptcha_site_key');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_recaptcha_secret_key');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_honeypot_api_key');
+    register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_abuseipdb_api_key');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_excluded_bots');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_score_threshold');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_enable_honeypot');

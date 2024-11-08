@@ -1,5 +1,40 @@
-<div class="wrap">
+<div class="wrap wp-bot-blocker-settings"> 
     <h1><?php echo esc_html__('Bot Blocker Settings', 'wp-bot-blocker'); ?></h1>
+    
+  <div class="wpbb-tabs">
+        <button class="wpbb-tab-link active" onclick="openTab(event, 'general')">General Settings</button>
+        <button class="wpbb-tab-link" onclick="openTab(event, 'api')">API Settings</button>
+        <button class="wpbb-tab-link" onclick="openTab(event, 'block-rules')">Block Rules</button>
+        <button class="wpbb-tab-link" onclick="openTab(event, 'rate-limit')">Rate Limit</button>
+        <!-- Add more tabs as needed -->
+    </div>  
+    
+    
+    <div id="general" class="wpbb-tab-content active">
+        <h2>General Settings</h2>
+        <form method="post" action="options.php">
+            <?php
+                settings_fields('wp_bot_blocker_settings');
+                do_settings_sections('wp_bot_blocker_general');
+                submit_button();
+            ?>
+        </form>
+    </div>
+    
+    
+    <div id="api" class="wpbb-tab-content">
+        <h2>API Settings</h2>
+        <form method="post" action="options.php">
+            <?php
+                settings_fields('wp_bot_blocker_api');
+                do_settings_sections('wp_bot_blocker_api');
+                submit_button();
+            ?>
+        </form>
+    </div>
+    
+    
+    
     <form method="post" action="options.php">
         <?php
         settings_fields('wp-bot-blocker-settings');
