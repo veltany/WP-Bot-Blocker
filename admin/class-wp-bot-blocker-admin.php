@@ -122,10 +122,10 @@ public function display_settings_page() {
     }
 
 public function display_traffic_monitor_page() {
-
+    global $wpdb ;
     $rate_limited_logs = $this->helper->cache_getresult("SELECT * FROM {$wpdb->prefix}wp_bot_blocker_logs WHERE reason = 'rate_limit' ORDER BY blocked_time DESC LIMIT 50",      "traffic_rate_limit_logs");
    
-    $all_logs = $wpdb->helper->cache_getresult("SELECT * FROM {$wpdb->prefix}wp_bot_traffic_logs ORDER BY visit_time DESC LIMIT 50", "all_logs_traffic_monitor");
+    $all_logs = $this->helper->cache_getresult("SELECT * FROM {$wpdb->prefix}wp_bot_traffic_logs ORDER BY visit_time DESC LIMIT 50", "all_logs_traffic_monitor");
 
     include WP_BOT_BLOCKER_DIR. 'admin/views/traffic-monitor-page.php';
 }
