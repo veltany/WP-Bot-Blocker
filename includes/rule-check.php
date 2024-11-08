@@ -63,6 +63,13 @@ class WPBotBlocker_Rule_Check {
         case 'request_uri':
             return preg_match($pattern, $_SERVER['REQUEST_URI']);
         
+        case 'full_url':
+            return ($this->get_current_url === $condition_value );
+                
+        case 'known_bot':
+            return false ;
+        
+        
         case 'query_strings':
             return preg_match($pattern, $_SERVER['QUERY_STRING'] ?? '');
         
@@ -104,4 +111,9 @@ class WPBotBlocker_Rule_Check {
        else
         return false ;
     }
+    
+ private function get_current_url() {
+    $protocol = is_ssl() ? 'https://' : 'http://';
+    return ($protocol) . $this->headers->get_header('HTTP_HOST'). $this->hraders->get_header('REQUEST_URI') ;
+}
 }
