@@ -14,8 +14,8 @@
         <h2>General Settings</h2>
         <form method="post" action="options.php">
             <?php
-                settings_fields('wp_bot_blocker_settings');
-                do_settings_sections('wp_bot_blocker_general');
+                settings_fields('wp-bot-blocker-settings');
+                do_settings_sections('wp-bot-blocker-settings');
                 submit_button();
             ?>
         </form>
@@ -170,4 +170,5 @@
 
     
 </div>
+
 
