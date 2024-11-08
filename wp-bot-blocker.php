@@ -1,12 +1,12 @@
 <?php
 /**
  * Plugin Name: WP Bot Blocker
- * Description: Advanced bot blocking with Google reCAPTCHA for enhanced verification.
- * Version: 2.2
+ * Description:  A WordPress plugin to block bad bots, implement rate limiting, and protect your site. 
+ * Version: 2.5
  * Author: Samuel Chukwu 
  * License: GPL2
  * Text Domain: wp-bot-blocker
- * Author URI: https://yourwebsite.com
+ * Author URI: https://github.com/veltany 
  * GitHub Plugin URI: https://github.com/veltany/wp-bot-blocker
  * GitHub Branch: main
  */
@@ -32,12 +32,7 @@ $myUpdateChecker->setBranch('main');
 //Optional: If you're using a private repository, specify the access token like this:
 ///$myUpdateChecker->setAuthentication('your-token-here');
  
-/*$myUpdateChecker = PucFactory::buildUpdateChecker(
-	WP_BOT_BLOCKER_URL.'update/wp-bot-blocker.json',
-	WP_BOT_BLOCKER_DIR.'wp-bot-blocker.php', //Full path to the main plugin file or functions.php.
-	'wp-bot-blocker'
-);
-*/
+
 
 require_once WP_BOT_BLOCKER_DIR . 'admin/class-wp-bot-blocker-admin.php';
 require_once WP_BOT_BLOCKER_DIR . 'includes/class-wp-bot-blocker-detection.php';
