@@ -6,6 +6,7 @@
  * Author: Samuel Chukwu 
  * License: GPL2
  * Text Domain: wp-bot-blocker
+ * Author URI: https://yourwebsite.com
  * GitHub Plugin URI: https://github.com/veltany/wp-bot-blocker
  * GitHub Branch: main
  */
@@ -14,6 +15,18 @@ if (!defined('ABSPATH')) exit;
 
 define('WP_BOT_BLOCKER_VERSION', '2.1');
 define('WP_BOT_BLOCKER_DIR', plugin_dir_path(__FILE__));
+define('WP_BOT_BLOCKER_URL', plugin_dir_url(__FILE__));
+
+require WP_BOT_BLOCKER_DIR.'lib/plugin-update-checker/plugin-update-checker.php';
+
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+ 
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+	WP_BOT_BLOCKER_URL.'update/wp-bot-blocker.json',
+	__FILE__, //Full path to the main plugin file or functions.php.
+	'wp-bot-blocker'
+);
+
 
 require_once WP_BOT_BLOCKER_DIR . 'admin/class-wp-bot-blocker-admin.php';
 require_once WP_BOT_BLOCKER_DIR . 'includes/class-wp-bot-blocker-detection.php';
@@ -25,18 +38,7 @@ require_once WP_BOT_BLOCKER_DIR. 'includes/class-abuseipdb-api.php';
 include_once(plugin_dir_path(__FILE__) . 'includes/class-honeypot-api.php'); 
 include_once(plugin_dir_path(__FILE__) . 'includes/class-recaptcha-v3-api.php'); 
 
-// Future plugin update 
-require 'lib/plugin-update-checker/plugin-update-checker.php';
 
-$update_checker = Puc_v4_Factory::buildUpdateChecker(
-    'https://github.com/veltany/wp-bot-blocker',
-    __FILE__,
-    'wp-bot-blocker'
-);
-
-// Set the branch to use (e.g., main or master)
-$update_checker->setBranch('main');
- 
 
 // Main WPBotBlocker class
  class WPBotBlocker {
