@@ -2,11 +2,16 @@
 if (!defined('ABSPATH')) exit;
 
 class WP_Bot_Blocker_Admin {
+  
+  private $helper;
 
     public function __construct() {
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_recaptcha_settings'));
         add_action('admin_init', array($this, 'handle_manual_cleanup'));
+          
+          $this->helper = new WP_Bot_Blocker_Helper(); 
+
 
     }
 
@@ -93,10 +98,12 @@ public function display_settings_page() {
         dbDelta($sql);
     }
 
-    public function display_logs_page() {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'wp_bot_blocker_logs';
-        $logs = $wpdb->get_results("SELECT * FROM $table_name ORDER BY blocked_time DESC LIMIT 20");
+ public function display_logs_page() {
+     $table_name = $wpdb->prefix . 'wp_bot_blocker_logs';
+
+      $cache_key = $table_name;
+      $logs = $this->helper->cache_getresult("SELECT * FROM $table_name ORDER BY blocked_time DESC LIMIT 20", $cache_key);
+        
 
         echo '<div class="wrap">';
         echo '<h1>' . esc_html__('Bot Blocker Logs', 'wp-bot-blocker') . '</h1>';
@@ -114,9 +121,10 @@ public function display_settings_page() {
     }
 
 public function display_traffic_monitor_page() {
-    global $wpdb;
-    $rate_limited_logs = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}wp_bot_blocker_logs WHERE reason = 'rate_limit' ORDER BY blocked_time DESC LIMIT 50");
-    $all_logs = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}wp_bot_traffic_logs ORDER BY visit_time DESC LIMIT 50");
+
+    $rate_limited_logs = $this->helper->cache_getresult("SELECT * FROM {$wpdb->prefix}wp_bot_blocker_logs WHERE reason = 'rate_limit' ORDER BY blocked_time DESC LIMIT 50",      "traffic_rate_limit_logs");
+   
+    $all_logs = $wpdb->helper->cache_getresult("SELECT * FROM {$wpdb->prefix}wp_bot_traffic_logs ORDER BY visit_time DESC LIMIT 50", "all_logs_traffic_monitor");
 
     include WP_BOT_BLOCKER_DIR. 'admin/views/traffic-monitor-page.php';
 }
