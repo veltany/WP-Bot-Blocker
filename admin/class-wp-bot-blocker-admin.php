@@ -65,6 +65,7 @@ public function register_recaptcha_settings() {
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_excluded_bots');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_score_threshold');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_enable_honeypot');
+    register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_enable_abuseipdb');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_monitor_crawlers');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_monitor_scrapers');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_monitor_spammers');
