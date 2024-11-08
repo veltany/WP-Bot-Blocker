@@ -81,8 +81,16 @@
                     <td><?php echo esc_html($rule->id); ?></td>
                     <td><?php echo esc_html($rule->rule_name); ?></td>
                     <td><?php echo esc_html($rule->type); ?></td>
-                    <td><?php echo esc_html($rule->condition_value); ?></td>
-                    <td><?php echo esc_html($rule->action); ?></td>
+                    <td><?php 
+                    if($rule->type == "country")
+                    echo $country_class->get_country_by_code($rule->condition_value);
+                    else
+                    echo esc_html($rule->condition_value); ?></td>
+                    <td><?php
+                    if($rule->action == "redirect" ) 
+                    echo esc_html("$rule->action >> $rule->redirect_url "); 
+                    else 
+                    echo esc_html($rule->action); ?></td>
                     <td><a href="?page=wp-bot-blocker-advanced-rules&delete_rule=<?php echo esc_attr($rule->id); ?>" class="button">Delete</a></td>
                 </tr>
             <?php endforeach; ?>

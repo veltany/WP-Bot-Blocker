@@ -83,6 +83,9 @@ class WPBotBlocker_Rule_Check {
      }
      if ($rule->action === 'redirect')
      {
+      // log this redirect
+      WP_Bot_Blocker_Logging::log_attempt($this->ip, "$rule->rule_name >> $rule->action", $this->user_agent);
+
        wp_redirect($rule->redirect_url, 302,'WP Bot Blocker');
      }
         // Additional actions can be added here as needed
