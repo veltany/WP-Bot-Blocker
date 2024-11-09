@@ -32,7 +32,7 @@
             </tr>
             <tr valign="top">
                 <th scope="row"><?php echo esc_html__('Bot Score Threshold', 'wp-bot-blocker'); ?></th>
-                <td><input type="number" name="wp_bot_blocker_score_threshold" value="<?php echo esc_attr(get_option('wp_bot_blocker_score_threshold', 5)); ?>" min="1" max="10" /></td>
+                <td><input type="number" name="wp_bot_blocker_score_threshold" value="<?php echo esc_attr(get_option('wp_bot_blocker_score_threshold', 5)); ?>" min="1" max="10" required="true" /></td>
             </tr>
 
             <tr valign="top">

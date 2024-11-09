@@ -26,6 +26,7 @@ class WPBotBlocker_Advanced_Rules {
       
         if (isset($_POST['new_rule'])) {
             $this->add_new_rule();
+            wp_admin_notice("New Rule successfully created.", ["type"=>"success "] );
         }
         
         if (isset($_GET['delete_rule'])) {
