@@ -106,18 +106,18 @@
     <div id="api" class="wpbb-tab-content">
         
        <!-- reCAPTCHA Settings -->
-        <h2><?php echo esc_html__('reCAPTCHA', 'wp-bot-blocker'); ?></h2>
+        <h2><?php echo esc_html__('reCAPTCHA v2', 'wp-bot-blocker'); ?></h2>
         <table class="form-table">
               <tr valign="top">
-                <th scope="row"><?php echo esc_html__('Enable reCAPTCHA on Block Page', 'wp-bot-blocker'); ?></th>
+                <th scope="row"><?php echo esc_html__('Enable reCAPTCHA Challenge on Block Page', 'wp-bot-blocker'); ?></th>
                 <td><input type="checkbox" name="wp_bot_blocker_enable_recaptcha_block" value="1" <?php checked(get_option('wp_bot_blocker_enable_recaptcha_block'), 1); ?> /></td>
             </tr>
             <tr valign="top">
-                <th scope="row"><?php echo esc_html__('reCAPTCHA Site Key', 'wp-bot-blocker'); ?></th>
+                <th scope="row"><?php echo esc_html__('reCAPTCHA v2 Site Key', 'wp-bot-blocker'); ?></th>
                 <td><input type="text" name="wp_bot_blocker_recaptcha_site_key" value="<?php echo esc_attr(get_option('wp_bot_blocker_recaptcha_site_key')); ?>" /></td>
             </tr>
             <tr valign="top">
-                <th scope="row"><?php echo esc_html__('reCAPTCHA Secret Key', 'wp-bot-blocker'); ?></th>
+                <th scope="row"><?php echo esc_html__('reCAPTCHA v2 Secret Key', 'wp-bot-blocker'); ?></th>
                 <td><input type="text" name="wp_bot_blocker_recaptcha_secret_key" value="<?php echo esc_attr(get_option('wp_bot_blocker_recaptcha_secret_key')); ?>" /></td>
             </tr>
         </table>
