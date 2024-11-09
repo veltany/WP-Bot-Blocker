@@ -82,11 +82,13 @@ class WPBotBlocker_Rule_Check {
     private function apply_action($rule) {
      if ($rule->action === 'block') 
      {
-         
-        
+      // Check if user passed captcha
+       if (!$this->wpb->detector->verify_recaptcha()) 
+      {
        $this->wpb->detector->block_request($this->ip, 
             "Rule: $rule->rule_name >> $rule->action", 
             $this->user_agent );
+      } 
      }
      if ($rule->action === 'redirect')
      {
