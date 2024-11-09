@@ -58,6 +58,15 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
     }
 
     private function is_rate_limited($ip_address) {
+      
+      // first, check if there is active
+      // block
+        if ( get_transient("wp_bot_blocker_blocked_$ip_address")) 
+        {
+            return true;
+        }
+      // then none
+      
         $request_count = get_transient("wp_bot_blocker_rate_limit_$ip_address") ?: 0;
 
         if ($request_count >= $this->rate_limit_threshold) {
