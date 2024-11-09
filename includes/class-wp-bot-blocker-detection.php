@@ -31,8 +31,10 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
 
         // Check if IP is rate-limited
         if ($this->is_rate_limited($ip_address)) { 
+          if (!$this->verify_recaptcha()) 
+          {
               $this->block_request($ip_address, 'rate_limit', $user_agent);
-            return;
+          } 
         }
 
         // Proceed with other bot detection checks
@@ -70,6 +72,7 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
         $request_count = get_transient("wp_bot_blocker_rate_limit_$ip_address") ?: 0;
 
         if ($request_count >= $this->rate_limit_threshold) {
+          
             set_transient("wp_bot_blocker_blocked_$ip_address", true, $this->rate_limit_block_duration);
             return true;
         }

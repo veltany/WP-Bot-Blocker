@@ -48,8 +48,13 @@ $enable_recaptcha = get_option('wp_bot_blocker_enable_recaptcha_block', false);
             <?php echo esc_html($block_message); ?>
         </div>
         <?php if ($enable_recaptcha): ?>
+          <form method="post" >
             <div class="g-recaptcha" data-sitekey="<?php echo esc_attr(get_option('wp_bot_blocker_recaptcha_site_key')); ?>"></div>
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        
+         <br>
+            <input type="submit" value = "Proceed, I am human" />
+        </form>
         <?php endif; ?>
         <script>
   // If reCAPTCHA is still loading, grecaptcha will be undefined.
