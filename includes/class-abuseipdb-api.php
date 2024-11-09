@@ -5,6 +5,7 @@ if (!class_exists('AbuseIPDBAPI')) {
     class AbuseIPDBAPI {
         private $api_key;
         private $base_url = 'https://api.abuseipdb.com/api/v2/check';
+        private $report_url = 'https://api.abuseipdb.com/api/v2/report';
 
         public function __construct() {
             $this->api_key = get_option('wp_bot_blocker_abuseipdb_api_key') ;
@@ -67,6 +68,46 @@ if (!class_exists('AbuseIPDBAPI')) {
             $data = $this->check_ip($ip);
             return isset($data['abuseConfidenceScore']) && $data['abuseConfidenceScore'] >= $threshold;
         }
+   
+  public function report_ip($ip, $comment = '', $categories = "12,21,19" ) {
+            
+    if (empty($this->api_key))
+    {
+         return false;
+     }
+            
+          
+            $url = $this->report_url ;
+           //ISO 8601 timestamp 
+            $time = date('c', time()); 
+            if(empty($comment))  $comment = 'WP Bot Blocker detected abuse. Rate Limit Exceeded';
+
+            $response = wp_remote_post($url, [
+                'headers' => [
+                    'Key' => $this->api_key,
+                    'ip' => $ip, 
+                    'comment' => $comment, 
+                    'Categories' => $categories,
+                    'Timestamp' => $time, 
+                    'Accept' => 'application/json',
+                ],
+            ]);
+
+            if (is_wp_error($response)) { return false;  }
+            
+            return true ;
+        }
+
+   
+   
+   
+   
+   
+   
     }
+    
+    
+    
+   
 }
  

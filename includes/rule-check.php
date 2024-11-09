@@ -83,7 +83,7 @@ class WPBotBlocker_Rule_Check {
      if ($rule->action === 'block') 
      {
       // Check if user passed captcha
-       if (!$this->wpb->detector->verify_recaptcha()) 
+       if (!$this->verify_recaptcha()) 
       {
        $this->wpb->detector->block_request($this->ip, 
             "Rule: $rule->rule_name >> $rule->action", 
@@ -118,4 +118,12 @@ class WPBotBlocker_Rule_Check {
     $protocol = is_ssl() ? 'https://' : 'http://';
     return ($protocol) . $this->headers->get_header('HTTP_HOST'). $this->hraders->get_header('REQUEST_URI') ;
 }
+
+private function verify_recaptcha() {
+        $token = isset($_POST['g-recaptcha-response']) ? sanitize_text_field($_POST['g-recaptcha-response']) : '';
+        return WP_Bot_Blocker_ReCaptcha::validate_recaptcha($token);
+    }
+
+
+
 }
