@@ -7,7 +7,7 @@ class WP_Bot_Blocker_Admin {
 
     public function __construct() {
         add_action('admin_menu', array($this, 'add_admin_menu'));
-        add_action('admin_init', array($this, 'register_recaptcha_settings'));
+        add_action('admin_init', array($this, 'register_settings'));
         add_action('admin_init', array($this, 'handle_manual_cleanup'));
           
           $this->helper = new WP_Bot_Blocker_Helper(); 
@@ -57,9 +57,13 @@ class WP_Bot_Blocker_Admin {
     );
     }
 
-public function register_recaptcha_settings() {
+public function register_settings() {
+  
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_recaptcha_site_key');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_recaptcha_secret_key');
+    register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_recaptcha_threshold');
+    register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_recaptchav3_site_key');
+    register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_recaptchav3_secret_key');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_honeypot_api_key');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_abuseipdb_api_key');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_excluded_bots');
@@ -73,7 +77,7 @@ public function register_recaptcha_settings() {
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_block_font_color');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_block_message');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_enable_recaptcha_block');
-    
+    register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_enable_recaptchav3');
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_enable_traffic_monitor'); 
     register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_rate_limit_threshold'); // Request threshold
 register_setting('wp-bot-blocker-settings', 'wp_bot_blocker_rate_limit_window'); // Time window

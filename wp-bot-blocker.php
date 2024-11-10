@@ -129,8 +129,8 @@ include_once(plugin_dir_path(__FILE__) . 'includes/class-recaptcha-v3-api.php');
    
  }
     
-    // Register plugin hooks
-    public function register_hooks() {
+ // Register plugin hooks
+ public function register_hooks() {
         
        // Register activation and deactivation hooks
         register_activation_hook(__FILE__, [$this, 'activate_plugin']);
@@ -205,7 +205,7 @@ register_deactivation_hook(__FILE__, function() {
  
  public function enqueue_scripts(){
      
-    // $this->enqueue_recaptcha_script();
+     $this->enqueue_recaptcha_script();
      
  }
    
@@ -259,7 +259,7 @@ public function verify_recaptcha_score_ajax_handler() {
 
     // Verify the token with the ReCAPTCHAv3API
     $recaptcha_api = new ReCAPTCHAv3API();
-    $threshold = 0.0; // Set threshold score for bot detection (adjust as needed)
+    $threshold = floatval(get_option('wp_bot_blocker_recaptcha_threshold', 0.5));
 
     // Check if the request score meets the threshold
     if ($recaptcha_api->verify_response($token, $threshold)) {

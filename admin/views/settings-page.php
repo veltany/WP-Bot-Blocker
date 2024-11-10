@@ -105,7 +105,7 @@
 
     <div id="api" class="wpbb-tab-content">
         
-       <!-- reCAPTCHA Settings -->
+       <!-- reCAPTCHA v2 Settings -->
         <h2><?php echo esc_html__('reCAPTCHA v2', 'wp-bot-blocker'); ?></h2>
         <table class="form-table">
               <tr valign="top">
@@ -119,6 +119,32 @@
             <tr valign="top">
                 <th scope="row"><?php echo esc_html__('reCAPTCHA v2 Secret Key', 'wp-bot-blocker'); ?></th>
                 <td><input type="text" name="wp_bot_blocker_recaptcha_secret_key" value="<?php echo esc_attr(get_option('wp_bot_blocker_recaptcha_secret_key')); ?>" /></td>
+            </tr>
+        </table>
+        <br>
+   
+   <!-- reCAPTCHA v3 Settings -->
+        <h2><?php echo esc_html__('reCAPTCHA v3', 'wp-bot-blocker'); ?></h2>
+        <table class="form-table">
+              <tr valign="top">
+                <th scope="row"><?php echo esc_html__('Enable reCAPTCHA v3', 'wp-bot-blocker'); ?></th>
+                <td><input type="checkbox" name="wp_bot_blocker_enable_recaptchav3" value="1" <?php checked(get_option('wp_bot_blocker_enable_recaptchav3'), 1); ?> /></td>
+            </tr>
+            <tr>
+            <th scope="row"><label for="wp_bot_blocker_recaptcha_threshold">reCAPTCHA Threshold Score</label></th>
+            <td>
+            <input type="number" step="0.1" min="0" max="1" name="wp_bot_blocker_recaptcha_threshold" id="wp_bot_blocker_recaptcha_threshold" value="<?php echo esc_attr(get_option('wp_bot_blocker_recaptcha_threshold', 0.5)); ?>" class="small-text" />
+             <p class="description">Set the score threshold between 0.0 and 1.0. Users with scores below this value will be considered bots.</p>
+           </td>
+           </tr>
+
+            <tr valign="top">
+                <th scope="row"><?php echo esc_html__('reCAPTCHA v3 Site Key', 'wp-bot-blocker'); ?></th>
+                <td><input type="text" name="wp_bot_blocker_recaptchav3_site_key" value="<?php echo esc_attr(get_option('wp_bot_blocker_recaptchav3_site_key')); ?>" /></td>
+            </tr>
+            <tr valign="top">
+                <th scope="row"><?php echo esc_html__('reCAPTCHA v3 Secret Key', 'wp-bot-blocker'); ?></th>
+                <td><input type="text" name="wp_bot_blocker_recaptchav3_secret_key" value="<?php echo esc_attr(get_option('wp_bot_blocker_recaptchav3_secret_key')); ?>" /></td>
             </tr>
         </table>
         <br>
