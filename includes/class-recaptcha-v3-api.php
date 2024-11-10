@@ -7,9 +7,9 @@ if (!class_exists('ReCAPTCHAv3API')) {
         private $api_url = 'https://www.google.com/recaptcha/api/siteverify';
 
         public function __construct() {
-            $this->site_key = get_option('wp_bot_blocker_recaptcha_site_key');
+            $this->site_key = get_option('wp_bot_blocker_recaptchav3_site_key');
             
-            $this->secret_key = get_option('wp_bot_blocker_recaptcha_secret_key');
+            $this->secret_key = get_option('wp_bot_blocker_recaptchav3_secret_key');
         }
 
         /**

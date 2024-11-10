@@ -38,8 +38,14 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
         }
 
         // Proceed with other bot detection checks
-        
-        
+       
+
+        // Check if the IP is blocked
+        if (get_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address))) {
+          
+           $this->block_request($ip_address, 'bot_detection_recaptcha', $user_agent);
+         }
+
         
         //$this->check_honey_pot($ip_address ) ;
        // $honeypot = new WPBotBlockerHoneyPotAPI();

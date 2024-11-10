@@ -267,7 +267,21 @@ public function verify_recaptcha_score_ajax_handler() {
         wp_send_json(['success' => true, 'message' => 'User verified as likely human.']);
     } else {
         // Score below threshold, likely a bot
+        // Block IP by setting a transient
+            $block_duration = 60 * 10; // Block for 10 minutes
+            $headers = new WP_Bot_Blocker_Headers();
+            $ip_address = $headers->get_ip(); 
+            $user_agent = $hraders->get_user_agent();
+            
+            set_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address), true, $block_duration);
+            
+            // Log the attempt with the reason
+            WP_Bot_Blocker_Logging::log_attempt($ip_address, 'reCAPTCHA_detected_bot', $user_agent);
+
         wp_send_json(['success' => false, 'message' => 'Bot detected.']);
+        // Block the request
+            wp_die('Access denied', '403 Forbidden', ['response' => 403]);
+       
     }
 
     wp_die();
