@@ -10,6 +10,7 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
     private $rate_limit_threshold;
     private $rate_limit_window;
     private $rate_limit_block_duration;
+    private $detected_by = "" ;
 
     public function __construct() {
         $this->score_threshold = (int) get_option('wp_bot_blocker_score_threshold', 5);
@@ -35,7 +36,7 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
         // reCaptcha v3 not verified ? 
         if ($this->is_recaptchav3_failed($ip_address))  
              {
-              $this->block_request($ip_address, 'bot_detection_recaptcha', $user_agent);
+              $this->block_request($ip_address, 'bot_detection >> recaptcha', $user_agent);
              } 
             
         
@@ -137,7 +138,7 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
         : get_option('wp_bot_blocker_bot_detection_message', 'Access Denied. Please verify you are human.');
 
     // Log the attempt with the reason
-    WP_Bot_Blocker_Logging::log_attempt($ip_address, $reason, $user_agent);
+    WP_Bot_Blocker_Logging::log_attempt($ip_address, "$reason >> $this->detected_by", $user_agent);
 
     // Display the block page with the appropriate message
     status_header(429);
@@ -164,6 +165,7 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
 
         if ($this->is_bot_user_agent($user_agent)) {
             $bot_score += 3;
+            $this->detected_by = "userAgent";
         }
 
         if ($this->rate_limit_exceeded($ip_address)) {
@@ -175,6 +177,7 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
         
       if ($abuseipdb_api->is_malicious($ip_address , 50)) {
              $bot_score += 5;
+             $this->detected_by = "AbuseIPDB";
          }
         
         if ($this->enable_honeypot) {
@@ -183,6 +186,7 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
                 WP_Bot_Blocker_Logging::log_attempt($ip_address, $user_agent, 'Honey Pot Block');
                 $this->add_to_blacklist($ip_address, 'Flagged by Project Honey Pot');
                 $bot_score = 10;
+                $this->detected_by = "Honey_Pot";
             }
         }
 
