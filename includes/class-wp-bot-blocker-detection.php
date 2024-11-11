@@ -238,9 +238,28 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
         ), array('%s', '%s', '%s'));
     }
 
-    private function verify_recaptcha() {
+private function verify_recaptcha() {
         $token = isset($_POST['g-recaptcha-response']) ? sanitize_text_field($_POST['g-recaptcha-response']) : '';
-        return WP_Bot_Blocker_ReCaptcha::validate_recaptcha($token);
+        
+        // Check if there's a cached verification result for this IP
+   $headers = new WP_Bot_Blocker_Headers();
+   $ip_address = $headers->get_ip();
+    $cache_key = 'wp_bot_blocker_verify_captcha_' . md5($ip_address);
+    $cached_result = get_transient($cache_key);
+
+    if ($cached_result !== false) {
+        // Use the cached result
+        return $cached_result;
+    }
+        $return = WP_Bot_Blocker_ReCaptcha::validate_recaptcha($token);
+    
+        // Cache the return 
+            set_transient($cache_key, $return, 5 * MINUTE_IN_SECONDS);
+            
+        return $return ;
+
+        
+        
     }
 
     

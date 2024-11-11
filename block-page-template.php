@@ -10,6 +10,10 @@ else
 $block_message = __("Please Verify you are human ", "wp_bot_blocker") ;
 
 $enable_recaptcha = get_option('wp_bot_blocker_enable_recaptcha_block', false);
+
+// Retrieve the original URL from the query parameter
+$original_url = isset($_GET['original_url']) ? esc_url_raw($_GET['original_url']) : home_url();
+
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +56,7 @@ $enable_recaptcha = get_option('wp_bot_blocker_enable_recaptcha_block', false);
             <?php echo esc_html($block_message); ?>
         </div>
         <?php if ($enable_recaptcha): ?>
-          <form method="post" >
+          <form method="post" action="<?php echo $original_url; ?>">
             <div class="g-recaptcha" data-sitekey="<?php echo esc_attr(get_option('wp_bot_blocker_recaptcha_site_key')); ?>"></div>
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         
