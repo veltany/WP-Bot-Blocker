@@ -132,7 +132,7 @@ if (! is_admin())
    } 
    // Load front end dependencies 
    // these departments are ONLY at frontend
-   if(! is_admin())
+   if(! is_admin() & ! wp_doing_ajax())
    {
        $this->rulecheck = new WPBotBlocker_Rule_Check($this);
        $this->detector = new WP_Bot_Blocker_Detection(); 
