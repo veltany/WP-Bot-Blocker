@@ -32,29 +32,15 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
 
         // Proceed with other bot detection checks
        
-       // If Recaptcha V3 enabled
-       if(get_option('wp_bot_blocker_enable_recaptchav3')) 
-       { 
-         // Check if the IP is blocked by recaptcha check
-        if ( get_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)))
-        {
-            
-             //then Captcha not verified 
-             if (!$this->verify_recaptcha()) 
+        // reCaptcha v3 not verified ? 
+        if ($this->is_recaptchav3_failed($ip_address))  
              {
-              
               $this->block_request($ip_address, 'bot_detection_recaptcha', $user_agent);
              } 
-              else
-              {
-                  //Captcha verified, unblock 
-                  delete_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)  ) ;
-              }
-         }
-       } 
+            
         
         
-        // Check if IP is rate-limited
+         // Check if IP is rate-limited
         if ($this->is_rate_limited($ip_address)) { 
           if (!$this->verify_recaptcha()) 
           {
@@ -82,6 +68,46 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
         }
         
     }
+    
+    
+    private function is_recaptchav3_failed($ip_address) 
+    { 
+       // If Recaptcha V3 not enabled
+       if(! (get_option('wp_bot_blocker_enable_recaptchav3') === '1')) 
+       { return false ;} 
+       
+      // is whitelisted
+      if ( get_transient('wp-bot-blocker-captchav3_whitelist'.md5($ip_address)) ) 
+      { return false ; } 
+        
+      // Check if the IP is blocked by recaptcha v3 check
+       if ( get_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)))
+        {
+            
+           //then Captcha v2 challenge not verified 
+             if (!$this->verify_recaptcha()) 
+             {
+              return true;
+             } 
+              else
+              {
+                  //Captcha v2 verified, unblock 
+                  delete_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)  ) ;
+                  
+                  //Since passed Captcha Challenge, white-list for now 
+                  set_transient('wp-bot-blocker-captchav3_whitelist'. md5($ip_address), true, 10 * MINUTE_IN_SECONDS);
+                  
+                  return false ;
+              }
+         } 
+         return false ;
+        
+        
+    }
+
+
+
+
 
     private function is_rate_limited($ip_address) {
       
@@ -247,8 +273,8 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
 private function verify_recaptcha() {
         $token = isset($_POST['g-recaptcha-response']) ? sanitize_text_field($_POST['g-recaptcha-response']) : '';
         
-        // Check if there's a cached verification result for this IP
-   $headers = new WP_Bot_Blocker_Headers();
+    // Check if there's a cached verification result for this IP
+  /* $headers = new WP_Bot_Blocker_Headers();
    $ip_address = $headers->get_ip();
     $cache_key = 'wp_bot_blocker_verify_captcha_' . md5($ip_address);
     $cached_result = get_transient($cache_key);
@@ -257,10 +283,10 @@ private function verify_recaptcha() {
         // Use the cached result
         return $cached_result;
     }
-        $return = WP_Bot_Blocker_ReCaptcha::validate_recaptcha($token);
+     */   $return = WP_Bot_Blocker_ReCaptcha::validate_recaptcha($token);
     
         // Cache the return 
-            set_transient($cache_key, $return, 5 * MINUTE_IN_SECONDS);
+          //  set_transient($cache_key, $return, 5 * MINUTE_IN_SECONDS);
             
         return $return ;
 

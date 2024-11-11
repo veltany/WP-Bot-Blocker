@@ -314,9 +314,16 @@ function verify_recaptcha_score_ajax_handler() {
     $headers = new WP_Bot_Blocker_Headers();
     $ip_address = $headers->get_ip(); 
     $user_agent = $headers->get_user_agent();
-            
     
-    // Check if there's a cached verification result for this IP
+      // is this ip  whitelisted
+      if ( get_transient('wp-bot-blocker-captchav3_whitelist' . md5($ip_address))) 
+      { wp_send_json(['success' => true, 'message' => 'User verified recaptcha v2 challenge. Whitelisted']); 
+          wp_die();
+      } 
+    
+         
+    
+    //Check if there's a cached verification result for this IP
     $cache_key = 'wp_bot_blocker_verification_' . md5($ip_address);
     $cached_result = get_transient($cache_key);
 
