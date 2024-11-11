@@ -242,7 +242,10 @@ add_filter('template_include', function ($template )
  // Enque styles and js files
  public function enqueue_scripts(){
      
-     $this->enqueue_recaptcha_script();
+  if(get_option('wp_bot_blocker_enable_recaptchav3')) 
+  {
+    $this->enqueue_recaptcha_script();
+  } 
      
  }
    

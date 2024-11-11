@@ -29,17 +29,12 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
         $user_agent = $bot_blocker_headers->get_user_agent();
 
 
-        // Check if IP is rate-limited
-        if ($this->is_rate_limited($ip_address)) { 
-          if (!$this->verify_recaptcha()) 
-          {
-              $this->block_request($ip_address, 'rate_limit', $user_agent);
-          } 
-        }
 
         // Proceed with other bot detection checks
        
-
+       // If Recaptcha V3 enabled
+       if(get_option('wp_bot_blocker_enable_recaptchav3')) 
+       { 
          // Check if the IP is blocked by recaptcha check
         if ( get_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)))
         {
@@ -56,8 +51,19 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
                   delete_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)  ) ;
               }
          }
+       } 
+        
+        
+        // Check if IP is rate-limited
+        if ($this->is_rate_limited($ip_address)) { 
+          if (!$this->verify_recaptcha()) 
+          {
+              $this->block_request($ip_address, 'rate_limit', $user_agent);
+          } 
+        }
 
-
+        
+        
         
         //$this->check_honey_pot($ip_address ) ;
        // $honeypot = new WPBotBlockerHoneyPotAPI();
