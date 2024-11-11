@@ -2,9 +2,9 @@
 Contributors: Samuel Chukwu 
 Donate link: https://yourwebsite.com/donate
 Tags: bot protection, rate limiting, recaptcha, AbuseIPDB, honey pot, WordPress security
-Requires at least: 6.0
+Requires at least: 6.6
 Tested up to: 6.6
-Stable tag: 2.5
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,10 +84,16 @@ Yes, the plugin provides an option to set a custom rate limit threshold and time
 
 = 1.0.0 =
 * Initial release of WP Bot Blocker.
-= 2.2.0 =
+= 2.0.0 =
 * WP Bot Blocker goes public. 
 
 == Upgrade Notice ==
 
-= 2.5.0 =
-* Intigrated with github for automated and open source release. 
+= 2.0.1 =
+* Integrated with github for automated and open source release. 
+
+= 2.0.2 =
+* Implemented Recaptcha V3.
+* Enable or disable Recaptcha V3 by choice.
+* Detect malicious traffic by score threshold.
+* Cache Api calls for performance.
