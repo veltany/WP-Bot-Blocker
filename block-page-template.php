@@ -4,7 +4,11 @@ if (!defined('ABSPATH')) exit;
 
 $background_color = get_option('wp_bot_blocker_block_bg_color', '#f44336');
 $font_color = get_option('wp_bot_blocker_block_font_color', '#ffffff');
+if(! empty($message)) 
 $block_message = $message; // Use the message passed from block_request
+else
+$block_message = __("Please Verify you are human ", "wp_bot_blocker") ;
+
 $enable_recaptcha = get_option('wp_bot_blocker_enable_recaptcha_block', false);
 ?>
 

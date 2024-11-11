@@ -273,7 +273,9 @@ add_filter('template_include', function ($template )
                         console.log('reCAPTCHA check: ', data.message);
                         if (!data.success) {
                             // Take action if bot detected, like redirecting to a warning page
-            window.location.href = '/block-access';
+            const originalUrl = encodeURIComponent(window.location.href);
+                    window.location.href = '/block-access?original_url=' +originalUrl ;
+                
                         }
                     });
                 });
@@ -306,6 +308,11 @@ function verify_recaptcha_score_ajax_handler() {
         wp_die();
     }
     
+    $headers = new WP_Bot_Blocker_Headers();
+    $ip_address = $headers->get_ip(); 
+    $user_agent = $headers->get_user_agent();
+            
+    
     // Check if there's a cached verification result for this IP
     $cache_key = 'wp_bot_blocker_verification_' . md5($ip_address);
     $cached_result = get_transient($cache_key);
@@ -313,11 +320,11 @@ function verify_recaptcha_score_ajax_handler() {
     if ($cached_result !== false) {
         // Use the cached result
         if ($cached_result['success']) {
-            wp_send_json_success(['message' => 'Human verified (cached)']);
+            wp_send_json(['success' => true, 'message' => 'User verified as likely human. Cached Result']);
         } else {
-            wp_send_json_error(['message' => 'Access denied (cached)'], 403);
+           wp_send_json(['success' => false, 'message' => 'Bot detected. Cached Result']);
         }
-        return;
+        wp_die();
     }
 
     // Verify the token with the ReCAPTCHAv3API
@@ -340,10 +347,7 @@ function verify_recaptcha_score_ajax_handler() {
           
         // Block IP by setting a transient
             $block_duration = 60; // Block for 10 minutes
-            $headers = new WP_Bot_Blocker_Headers();
-            $ip_address = $headers->get_ip(); 
-            $user_agent = $headers->get_user_agent();
-            
+
             set_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address), true, $block_duration);
             
             // Log the attempt with the reason
