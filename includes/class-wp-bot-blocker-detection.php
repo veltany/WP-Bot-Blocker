@@ -40,11 +40,23 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
         // Proceed with other bot detection checks
        
 
-        // Check if the IP is blocked
-        if (get_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address))) {
-          
-           $this->block_request($ip_address, 'bot_detection_recaptcha', $user_agent);
+         // Check if the IP is blocked by recaptcha check
+        if ( get_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)))
+        {
+            
+             //then Captcha not verified 
+             if (!$this->verify_recaptcha()) 
+             {
+              
+              $this->block_request($ip_address, 'bot_detection_recaptcha', $user_agent);
+             } 
+              else
+              {
+                  //Captcha verified, unblock 
+                  delete_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)  ) ;
+              }
          }
+
 
         
         //$this->check_honey_pot($ip_address ) ;

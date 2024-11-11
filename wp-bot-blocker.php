@@ -36,8 +36,8 @@ $myUpdateChecker->setBranch('main');
  
 
 
-require_once WP_BOT_BLOCKER_DIR . 'admin/class-wp-bot-blocker-admin.php';
-require_once WP_BOT_BLOCKER_DIR . 'includes/class-wp-bot-blocker-detection.php';
+
+
 require_once WP_BOT_BLOCKER_DIR . 'includes/class-wp-bot-blocker-logging.php';
 require_once WP_BOT_BLOCKER_DIR . 'includes/class-wp-bot-blocker-recaptcha.php';
 require_once WP_BOT_BLOCKER_DIR . 'includes/class-wp-bot-blocker-reputation.php';
@@ -45,6 +45,26 @@ require_once WP_BOT_BLOCKER_DIR . 'includes/class-wp-bot-blocker-traffic.php';
 require_once WP_BOT_BLOCKER_DIR. 'includes/class-abuseipdb-api.php';
 include_once(plugin_dir_path(__FILE__) . 'includes/class-honeypot-api.php'); 
 include_once(plugin_dir_path(__FILE__) . 'includes/class-recaptcha-v3-api.php'); 
+require_once WP_BOT_BLOCKER_DIR. 'includes/class-wp-bot-blocker-headers.php';
+require_once WP_BOT_BLOCKER_DIR . 'includes/class-wp-bot-blocker-helper.php';
+
+
+// For performance sake, let's load only what we need 
+
+if (is_admin()) 
+{
+   require_once WP_BOT_BLOCKER_DIR . 'admin/advanced-rules.php';
+   require_once WP_BOT_BLOCKER_DIR . 'admin/class-wp-bot-blocker-admin.php';
+} 
+// For fronted only
+if (! is_admin()) 
+{
+   require_once WP_BOT_BLOCKER_DIR . 'includes/class-wp-bot-blocker-detection.php';
+   require_once WP_BOT_BLOCKER_DIR. 'includes/rule-check.php';  
+    
+} 
+        
+        
 
 
 
@@ -67,7 +87,7 @@ include_once(plugin_dir_path(__FILE__) . 'includes/class-recaptcha-v3-api.php');
 
     // Constructor: Set up hooks and load dependencies
     private function __construct() {
-        
+       
        
         // Load dependencies
         $this->load_dependencies();
@@ -88,28 +108,21 @@ include_once(plugin_dir_path(__FILE__) . 'includes/class-recaptcha-v3-api.php');
         //Load plugin scripts
         add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
 
-   
-        // Register AJAX actions for both logged-in and non-logged-in users
-        add_action('wp_ajax_verify_recaptcha_score', [$this, 'verify_recaptcha_score_ajax_handler'] );
-        add_action('wp_ajax_nopriv_verify_recaptcha_score', [$this, 'verify_recaptcha_score_ajax_handler']);
- 
+       // finally run other setup
+        add_action('init', [$this, 'do_setup']);
+
+    
+        
 
     }
 
-    // Load dependencies and required files
-    private function load_dependencies() {
-        include_once(plugin_dir_path(__FILE__) . 'admin/advanced-rules.php');
-        
-        include_once(plugin_dir_path(__FILE__) . 'includes/rule-check.php'); 
-        include_once(plugin_dir_path(__FILE__) . 'includes/class-wp-bot-blocker-helper.php') ;
-        require_once WP_BOT_BLOCKER_DIR. 'includes/class-wp-bot-blocker-headers.php';
-        
-   
-        //include_once(plugin_dir_path(__FILE__) . 'includes/logging.php');
-        
+ // Load dependencies and required files
+ private function load_dependencies() 
+ {
+    
   // Load  global helpers and api
   $this->helper = new WP_Bot_Blocker_Helper(); 
-  $this->honeypot = new WPBotBlockerHoneyPotAPI(); 
+ // $this->honeypot = new WPBotBlockerHoneyPotAPI(); 
   
    if (is_admin()) {
     
@@ -121,7 +134,6 @@ include_once(plugin_dir_path(__FILE__) . 'includes/class-recaptcha-v3-api.php');
    // these departments are ONLY at frontend
    if(! is_admin())
    {
-                 
        $this->rulecheck = new WPBotBlocker_Rule_Check($this);
        $this->detector = new WP_Bot_Blocker_Detection(); 
    }
@@ -175,21 +187,20 @@ register_deactivation_hook(__FILE__, function() {
 
     }
 
-   // Detect bot activity on init
-   public function detect_bot_activity() {
-        if (is_admin()) return;
+ // Detect bot activity on init
+ public function detect_bot_activity() {
+   if (is_admin()) return;
         
-       $this->detector->run_detection();
- 
-    }
+   $this->detector->run_detection();
+  }
     
     
-    // Run execute page rules 
-   public function run_page_rules()
+// Run execute page rules 
+public function run_page_rules()
    {
-       if (is_admin()) return;
-
-       $this->rulecheck->execute_rules();
+    if (is_admin()) return;
+       
+     $this->rulecheck->execute_rules();
    }
    
    // run routine checks
@@ -201,8 +212,34 @@ register_deactivation_hook(__FILE__, function() {
        add_action('wp', array('WP_Bot_Blocker_Traffic', 'log_visit'));
 
    }
-   
  
+ // Run general setup
+ public function do_setup()
+ {
+   // Add a rewrite rule for the block page
+ add_rewrite_rule('^block-access/?$', 'index.php?block_access=1', 'top');
+
+// Register the custom query variable
+add_filter('query_vars', function ($vars) {
+    $vars[] = 'block_access';
+    return $vars;
+    });
+
+// Load the block page template
+add_filter('template_include', function ($template ) 
+     {
+         if (get_query_var('block_access') == 1) {
+        return plugin_dir_path(__FILE__) . 'block-page-template.php';
+         }
+    return $template;
+     }
+
+);
+
+
+}
+ 
+ // Enque styles and js files
  public function enqueue_scripts(){
      
      $this->enqueue_recaptcha_script();
@@ -222,9 +259,9 @@ register_deactivation_hook(__FILE__, function() {
         // Inline script to generate reCAPTCHA token and send it via AJAX
         wp_add_inline_script('recaptcha-v3', "
             grecaptcha.ready(function() {
-                grecaptcha.execute('$site_key', {action: 'page_load'}).then(function(token) {
+                grecaptcha.execute('$site_key', {action: 'wp_bot_blocker'}).then(function(token) {
                     // Send token to the server via AJAX
-                    fetch('" . admin_url('admin-ajax.php') . "?action=verify_recaptcha', {
+                    fetch('" . admin_url('admin-ajax.php') . "?action=verify_recaptcha_score', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -233,10 +270,10 @@ register_deactivation_hook(__FILE__, function() {
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log('reCAPTCHA check:', data.message);
+                        console.log('reCAPTCHA check: ', data.message);
                         if (!data.success) {
                             // Take action if bot detected, like redirecting to a warning page
-                            window.location.href = '/block-page-template.php';
+            window.location.href = '/block-access';
                         }
                     });
                 });
@@ -245,8 +282,20 @@ register_deactivation_hook(__FILE__, function() {
     }
 }
 
+} 
 
-public function verify_recaptcha_score_ajax_handler() {
+
+
+
+
+// Handle plugin Ajax Requests outside plugin logic
+// Register AJAX actions for both logged-in and non-logged-in users
+  add_action('wp_ajax_verify_recaptcha_score',  'verify_recaptcha_score_ajax_handler');
+        add_action('wp_ajax_nopriv_verify_recaptcha_score', 'verify_recaptcha_score_ajax_handler');
+
+
+function verify_recaptcha_score_ajax_handler() {
+   
     // Get the JSON input and decode
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
@@ -256,6 +305,20 @@ public function verify_recaptcha_score_ajax_handler() {
         wp_send_json(['success' => false, 'message' => 'No reCAPTCHA token provided.']);
         wp_die();
     }
+    
+    // Check if there's a cached verification result for this IP
+    $cache_key = 'wp_bot_blocker_verification_' . md5($ip_address);
+    $cached_result = get_transient($cache_key);
+
+    if ($cached_result !== false) {
+        // Use the cached result
+        if ($cached_result['success']) {
+            wp_send_json_success(['message' => 'Human verified (cached)']);
+        } else {
+            wp_send_json_error(['message' => 'Access denied (cached)'], 403);
+        }
+        return;
+    }
 
     // Verify the token with the ReCAPTCHAv3API
     $recaptcha_api = new ReCAPTCHAv3API();
@@ -264,14 +327,22 @@ public function verify_recaptcha_score_ajax_handler() {
     // Check if the request score meets the threshold
     if ($recaptcha_api->verify_response($token, $threshold)) {
         // Score meets threshold, likely a human
+        // Cache the successful verification
+        set_transient($cache_key, ['success' => true, 'message'=> 'User verified as likely human'], 10 * MINUTE_IN_SECONDS);
+
         wp_send_json(['success' => true, 'message' => 'User verified as likely human.']);
     } else {
         // Score below threshold, likely a bot
+        
+        // Cache the failed result
+            set_transient($cache_key, ['success' => false, 'message' => 'Bot Detected'], 10 * MINUTE_IN_SECONDS);
+
+          
         // Block IP by setting a transient
-            $block_duration = 60 * 10; // Block for 10 minutes
+            $block_duration = 60; // Block for 10 minutes
             $headers = new WP_Bot_Blocker_Headers();
             $ip_address = $headers->get_ip(); 
-            $user_agent = $hraders->get_user_agent();
+            $user_agent = $headers->get_user_agent();
             
             set_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address), true, $block_duration);
             
@@ -289,7 +360,7 @@ public function verify_recaptcha_score_ajax_handler() {
 
 
    
-}
+
 
 // Initialize the plugin
 WPBotBlocker::get_instance();
