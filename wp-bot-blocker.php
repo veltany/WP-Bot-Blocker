@@ -316,7 +316,7 @@ function verify_recaptcha_score_ajax_handler() {
     $user_agent = $headers->get_user_agent();
     
       // is this ip  whitelisted
-      if ( get_transient('wp-bot-blocker-captchav3_whitelist' . md5($ip_address))) 
+      if (! (false === get_transient('wp-bot-blocker-captchav3_whitelist' . md5($ip_address)))) 
       { wp_send_json(['success' => true, 'message' => 'User verified recaptcha v2 challenge. Whitelisted']); 
           wp_die();
       } 
@@ -327,7 +327,7 @@ function verify_recaptcha_score_ajax_handler() {
     $cache_key = 'wp_bot_blocker_verification_' . md5($ip_address);
     $cached_result = get_transient($cache_key);
 
-    if ($cached_result !== false) {
+    if (! ($cached_result === false)) {
         // Use the cached result
         if ($cached_result['success']) {
             wp_send_json(['success' => true, 'message' => 'User verified as likely human. Cached Result']);
@@ -356,7 +356,7 @@ function verify_recaptcha_score_ajax_handler() {
 
           
         // Block IP by setting a transient
-            $block_duration = 60; // Block for 10 minutes
+            $block_duration = 10 * MINUTE_IN_SECONDS ; // Block for 10 minutes
 
             set_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address), true, $block_duration);
             

@@ -78,11 +78,11 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
        { return false ;} 
        
       // is whitelisted
-      if ( get_transient('wp-bot-blocker-captchav3_whitelist'.md5($ip_address)) ) 
+      if (! (false === get_transient('wp-bot-blocker-captchav3_whitelist'.md5($ip_address)) )) 
       { return false ; } 
         
       // Check if the IP is blocked by recaptcha v3 check
-       if ( get_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)))
+       if (! (false === get_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)))) 
         {
             
            //then Captcha v2 challenge not verified 
@@ -96,7 +96,7 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
                   delete_transient('wp_bot_blocker_blocked_recaptcha' . md5($ip_address)  ) ;
                   
                   //Since passed Captcha Challenge, white-list for now 
-                  set_transient('wp-bot-blocker-captchav3_whitelist'. md5($ip_address), true, 10 * MINUTE_IN_SECONDS);
+                  set_transient('wp-bot-blocker-captchav3_whitelist'. md5($ip_address), true, 20 * MINUTE_IN_SECONDS);
                   
                   return false ;
               }
