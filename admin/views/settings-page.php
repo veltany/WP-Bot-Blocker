@@ -28,7 +28,10 @@
         <table class="form-table">
             <tr valign="top">
                 <th scope="row"><?php echo esc_html__('Exclude Bots (User-Agent)', 'wp-bot-blocker'); ?></th>
-                <td><input type="text" name="wp_bot_blocker_excluded_bots" value="<?php echo esc_attr(get_option('wp_bot_blocker_excluded_bots', 'Googlebot, Bingbot')); ?>" placeholder="e.g., Googlebot, Bingbot" /></td>
+                <td>
+                  <textarea rows="4" cols="50" name="wp_bot_blocker_excluded_bots" placeholder="e.g., Googlebot, Bingbot"  ><?php echo esc_attr(get_option('wp_bot_blocker_excluded_bots', 'Googlebot, Bingbot')); ?></textarea> 
+                    <p class="description">Separated with Comma ( , ) </p>
+                </td>
             </tr>
             <tr valign="top">
                 <th scope="row"><?php echo esc_html__('Bot Score Threshold', 'wp-bot-blocker'); ?></th>
