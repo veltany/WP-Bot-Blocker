@@ -35,7 +35,13 @@
             </tr>
             <tr valign="top">
                 <th scope="row"><?php echo esc_html__('Bot Score Threshold', 'wp-bot-blocker'); ?></th>
-                <td><input type="number" name="wp_bot_blocker_score_threshold" value="<?php echo esc_attr(get_option('wp_bot_blocker_score_threshold', 5)); ?>" min="1" max="10" required="true" /></td>
+                <td>
+                  <input type="number" name="wp_bot_blocker_score_threshold" value="<?php echo esc_attr(get_option('wp_bot_blocker_score_threshold', 5)); ?>" min="1" max="10" required="true" />
+                    <p class="description">Score from 1 to 10.
+                    1 is likely not a bot.
+                    10 is definitely a bad bot.
+                    </p>
+                  </td>
             </tr>
 
             <tr valign="top">
@@ -55,7 +61,10 @@
         <table class="form-table">
             <tr valign="top">
                 <th scope="row"><?php echo esc_html__('Enable Traffic Monitor', 'wp-bot-blocker'); ?></th>
-                <td><input type="checkbox" name="wp_bot_blocker_enable_traffic_monitor" value="1" <?php checked(get_option('wp_bot_blocker_enable_traffic_monitor'), 1); ?> /></td>
+                <td><input type="checkbox" name="wp_bot_blocker_enable_traffic_monitor" value="1" <?php checked(get_option('wp_bot_blocker_enable_traffic_monitor'), 1); ?> />
+                  <p class="description">Traffic monitor logs every single visit to this WordPress site.
+                  For performance sake, enable this only while debugging, especially for high traffic sites.</p>
+                </td>
             </tr>
         </table>
         
