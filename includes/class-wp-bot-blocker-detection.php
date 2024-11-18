@@ -30,16 +30,7 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
         $user_agent = $bot_blocker_headers->get_user_agent();
 
 
-
-        // Proceed with other bot detection checks
-       
-        // reCaptcha v3 not verified ? 
-        if ($this->is_recaptchav3_failed($ip_address))  
-             {
-              $this->block_request($ip_address, 'bot_detection >> recaptcha', $user_agent);
-             } 
             
-        
         
          // Check if IP is rate-limited
         if ($this->is_rate_limited($ip_address)) { 
@@ -48,7 +39,13 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
               $this->block_request($ip_address, 'rate_limit', $user_agent);
           } 
         }
+        
+       // Proceed with other bot detection checks
+       
 
+
+       // Skip if the bot is excluded (e.g., Googlebot)
+        if ($this->is_excluded_bot($user_agent)) return;
         
         
         
@@ -57,10 +54,24 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
       //  $help = new WP_Bot_Blocker_Helper ();
        // $help->log("Bot Data: ". $honeypot->get_bot_data('185.185.217.76')) ;
        
-        
-        // Skip if the bot is excluded (e.g., Googlebot)
-        if ($this->is_excluded_bot($user_agent)) return;
 
+       
+        // Block if UserAgent is bot
+        if($this->is_bot_user_agent($user_agent)) 
+        {
+           $this->detected_by = "Internal";
+           $this->block_request($ip_address, 'bot_detection', $user_agent);
+        }
+        
+     
+       // reCaptcha v3 not verified ? 
+        if ($this->is_recaptchav3_failed($ip_address))  
+             {
+              $this->block_request($ip_address, 'bot_detection >> recaptcha', $user_agent);
+             } 
+
+        
+        
         // If bot score threshold is exceeded, block due to bot detection
         if ($this->calculate_bot_score($user_agent, $ip_address) >= $this->score_threshold) {
             if (!$this->verify_recaptcha()) {

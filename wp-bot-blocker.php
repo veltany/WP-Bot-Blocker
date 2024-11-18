@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Bot Blocker
  * Description:  A WordPress plugin to block bad bots, implement rate limiting, and protect your site. 
- * Version: 2.0.2
+ * Version: 2.0.3
  * Author: Samuel Chukwu 
  * License: GPL2
  * Text Domain: wp-bot-blocker

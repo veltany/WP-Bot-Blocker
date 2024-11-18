@@ -3,7 +3,7 @@ Contributors: Samuel Chukwu
 Donate link: https://yourwebsite.com/donate
 Tags: bot protection, rate limiting, recaptcha, AbuseIPDB, honey pot, WordPress security
 Requires at least: 6.6
-Tested up to: 6.6
+Tested up to: 6.7
 Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -12,7 +12,7 @@ A WordPress plugin to block bad bots, implement rate limiting, and protect your 
 
 == Description ==
 
-WP Bot Blocker is a FREE and Open Source solution to decisively deal with bots and malicious traffic. 
+WP Bot Blocker is a FREE and Open Source solution to decisively deal with bad bots and malicious traffic. 
 
 WP Bot Blocker is a simple yet powerful WordPress plugin that helps secure WordPress sites by blocking malicious bots, limiting request rates, and enabling bot detection.
 Wp Bot Blocker works by intercepting all incoming requests to WordPress Fronted early enough and taking appropriate action by applying the Block Rules or intercepting the request based on the defined settings.
@@ -96,6 +96,11 @@ Yes, the plugin provides an option to set a custom rate limit threshold and time
 * Enable or disable Recaptcha V3 by choice.
 * Detect malicious traffic by score threshold.
 * Cache Api calls for performance.
+
+= 2.0.3 =
+* Overhauled the Detection System.
+* Seperate Internal Detection from external API detection.
+* Added "detected by" to block logs.
 
 == Upgrade Notice ==
 
