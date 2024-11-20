@@ -153,6 +153,7 @@ class WP_Bot_Blocker_Detection extends WPBotBlocker {
 
     // Display the block page with the appropriate message
     status_header(429);
+    nocache_headers();
     include WP_BOT_BLOCKER_DIR . '/block-page-template.php';
     exit;
 }
